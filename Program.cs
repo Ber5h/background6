@@ -9,15 +9,57 @@ namespace ConsoleApp1
     class Program
     {
         //у меня был смачный Try_Parse в одной из фоновой, я его найду, переделаю и сюда закину
+        static public uint Try_Parse(byte option)
+        {
+            uint x;
+            bool a = UInt32.TryParse(Console.ReadLine(), out x);
+            if (!a)
+            {
+                Console.Write("Введено нечисловое значение. Повторите ввод: ");
+                return Try_Parse(option);
+            }
+            
+            return x;
+        }
+        static public int Try_Parse()
+        {
+            int x;
+            bool a = Int32.TryParse(Console.ReadLine(), out x);
+            if (!a)
+            {
+                Console.Write("Введено нечисловое значение. Повторите ввод: ");
+                return Try_Parse();
+            }
+            return x;
+        }
+        static public double Try_Parse_Double(byte option)
+        {
+            double x;
+            try
+            {
+                x = double.Parse(Console.ReadLine());
+            }
+            catch(FormatException)
+            {
+                Console.Write("Введено нечисловое значение. Повторите ввод: ");
+                return Try_Parse_Double(option);
+            }
+            if (option == 0 & (x <=0 | x>=180)) //угол (мб просто еще что-нибудь придется вводить...)
+            {
+                Console.Write("Введенное число должно быть параметром угла в градусах (от 0 до 180 невключительно). Повторите ввод: ");
+                return Try_Parse_Double(0);
+            }
+            return x;
+        }
         static Figura Figura_input()
         {
             Console.WriteLine("Введите 1, если хотите задать точку вставки фигуры вручную, введите что угодно, чтобы задать точку дефолтно");
             if (Console.ReadLine() == "1")
             {
                 Console.Write("Введите x: ");
-                int x = int.Parse(Console.ReadLine());
+                int x = Try_Parse();
                 Console.Write("Введите y: ");
-                int y = int.Parse(Console.ReadLine());
+                int y = Try_Parse();
                 return new Figura(x, y);
             }
             else return new Figura();
@@ -25,14 +67,14 @@ namespace ConsoleApp1
         static Triangle Triangle_input()
         {
             Console.WriteLine("Введите 1, если хотите задать параметры треугольника вручную, введите что угодно, чтобы задать треугольник дефолтно");
-            if (Console.ReadLine()=="1")
+            if (Console.ReadLine() == "1")
             {
                 Console.Write("Введите первую сторону: ");
-                int a = int.Parse(Console.ReadLine());
+                int a = (int)Try_Parse(2);
                 Console.Write("Введите вторую сторону: ");
-                int b = int.Parse(Console.ReadLine());
+                int b = (int)Try_Parse(2);
                 Console.Write("Введите угол между ними: ");
-                double beta = double.Parse(Console.ReadLine());
+                double beta = Try_Parse_Double(0);
                 return new Triangle(a, b, beta);
             }
             else
@@ -46,9 +88,9 @@ namespace ConsoleApp1
             if (Console.ReadLine() == "1")
             {
                 Console.Write("Введите ширину: ");
-                int width = int.Parse(Console.ReadLine());
+                int width = (int)Try_Parse(2);
                 Console.Write("Введите высоту: ");
-                int height = int.Parse(Console.ReadLine());
+                int height = (int)Try_Parse(2);
                 return new Rectangle(width, height);
             }
             else return new Rectangle();
@@ -57,10 +99,10 @@ namespace ConsoleApp1
         {
             //здесь будут case
         }
-        static void New_Figura(Figura obj1) 
+        static void New_Figura(Figura obj1)
         {
             Console.WriteLine("Введите 1, если хотите создать треугольник, введите что угодно, чтобы создать прямоугольник");
-            if (Console.ReadLine()=="1")
+            if (Console.ReadLine() == "1")
             {
                 obj1 = Triangle_input();
             }
@@ -135,7 +177,7 @@ namespace ConsoleApp1
         private int a;
         private int b;
         private double beta;
-        public Triangle ()
+        public Triangle()
             : base()
         {
             a = 5;
@@ -149,7 +191,7 @@ namespace ConsoleApp1
             this.b = b;
             this.beta = beta;
         }
-        
+
         public int A
         {
             get
@@ -211,7 +253,7 @@ namespace ConsoleApp1
             width = 4;
             height = 8;
         }
-        public Rectangle(int width,int height)
+        public Rectangle(int width, int height)
             : base()
         {
             this.width = width;
