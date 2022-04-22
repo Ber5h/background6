@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,7 +18,7 @@ namespace ConsoleApp1
                 Console.Write("Введено нечисловое значение. Повторите ввод: ");
                 return Try_Parse(option);
             }    
-            if (option == 0 & x>5)
+            if ((option == 0 & x>3)^(option == 1 & x > 7)^x==0) //я конченый
             {
                 Console.Write("Введено не то число. Повторите ввод: ");
                 return Try_Parse(0);
@@ -123,24 +123,56 @@ namespace ConsoleApp1
             {
                 case 0:
                     Console.WriteLine("Программа может\n1)Вывести x и y точки\n2)Поменять x точки\n3)Поменять y " +
-                        "точки\n4)Вывести это сообщение еще раз\n5)Перейти к работе над другим объектом");
-                    Interface_Figura(mas, (byte)Try_Parse(1));
+                        "точки");
+                    Interface_Figura(mas, (byte)Try_Parse(0));
                     break;
                 case 1:
                     Console.WriteLine("Программа может\n1)Вывести параметры треугольника\n2)Вывести третью" +
                         " сторону треугольника\n3)Проверить, является ли треугольник равнобедренным\n4)" +
-                        "Посчитать площадь треугольника\n5)Вывести это сообщение еще раз\n6)Перейти к работе над другим объектом");
+                        "Посчитать площадь треугольника\n5)Поменять x точки вставки" +
+                        "\n5)Поменять y точки вставки\n6)Вывести это сообщение еще раз\n7)Перейти к работе над другим объектом");
+                    Interface_Triangle((Triangle)mas[1], (byte)Try_Parse(1));
                     break;
                 case 2:
                     Console.WriteLine("Программа может\n1)Вывести параметры прямоугольника\n2)Проверить," +
-                        "является ли прямоугольник квадратом\n3)Вывести площадь прямоугольника" +
-                        "\n4)Вывести это сообщение еще раз\n5)Перейти к работе над другим объектом");
+                        "является ли прямоугольник квадратом\n3)Вывести площадь прямоугольника\n4)Поменять x точки вставки" +
+                        "\n5)Поменять y точки втавки\n6)Вывести это сообщение еще раз\n7)Перейти к работе над другим объектом");
                     break;
             }
         }
         static void Interface_Figura (Figura[]mas, byte option)
         {
-
+            //АААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААААА
+            //Анна Олеговна, не ставьте 2
+            switch (option)
+            {
+                case 1:
+                    mas[0].Show();
+                    Interface_Figura(mas, (byte)Try_Parse(1));
+                    break;
+                case 2:
+                    Console.Write("Введите x: ");
+                    mas[0].X = Try_Parse();
+                    break;
+                case 3:
+                    Console.Write("Введите y: ");
+                    mas[0].Y = Try_Parse();
+                    break;
+                default:
+                    break;
+            }
+        }
+        static void Interface_Triangle(Triangle obj1, byte option)
+        {
+            switch(option)
+            {
+                case 1:
+                    obj1.Show();
+                    break;
+                case 2:
+                    Console.WriteLine("Третья сторона: {0:f2}", obj1.C);
+                    break;
+            }
         }
         static void New_Figura(Figura obj1)
         {
@@ -174,6 +206,7 @@ namespace ConsoleApp1
             //да, я извращенец
             mas[2] = Create_Figura(0);
             mas[2] = New_Figura(1);
+            Interface(mas);
             Console.ReadKey();
         }
     }
@@ -213,7 +246,7 @@ namespace ConsoleApp1
                 y = value;
             }
         }
-        public void Show()
+        public virtual void Show()
         {
             Console.WriteLine("x фигуры: {0}", x);
             Console.WriteLine("y фигуры: {0}", y);
@@ -284,7 +317,7 @@ namespace ConsoleApp1
         {
             return (a * b * Math.Sin(Rad(beta)) / 2);
         }
-        public new void Show()
+        public override void Show()
         {
             base.Show();
             Console.WriteLine("Сторона a: {0}", a);
@@ -333,7 +366,7 @@ namespace ConsoleApp1
         {
             return (width * height);
         }
-        public new void Show()
+        public override void Show()
         {
             base.Show();
             Console.WriteLine("Ширина: {0}", width);
