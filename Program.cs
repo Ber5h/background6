@@ -17,8 +17,12 @@ namespace ConsoleApp1
             {
                 Console.Write("Введено нечисловое значение. Повторите ввод: ");
                 return Try_Parse(option);
+            }    
+            if (option == 0 & x>5)
+            {
+                Console.Write("Введено не то число. Повторите ввод: ");
+                return Try_Parse(0);
             }
-            
             return x;
         }
         static public int Try_Parse()
@@ -95,9 +99,48 @@ namespace ConsoleApp1
             }
             else return new Rectangle();
         }
-        static void Interface()
+        static void Interface(Figura[] mas)
         {
-            //здесь будут case
+            Console.WriteLine("Нажмите 1, чтобы работать с заданной точкой\nНажмите 2, чтобы работать с " +
+                "заданным треугольником\nНажмите что угодно, чтобы работать с заданным прямоугольником");
+            string a = Console.ReadLine();
+            switch(a)
+            {
+                case "1":
+                    Interface(mas, 0);
+                    break;
+                case "2":
+                    Interface(mas, 1);
+                    break;
+                default:
+                    Interface(mas, 2);
+                    break;
+            }
+        }
+        static void Interface(Figura[] mas, byte option)
+        {
+            switch (option)
+            {
+                case 0:
+                    Console.WriteLine("Программа может\n1)Вывести x и y точки\n2)Поменять x точки\n3)Поменять y " +
+                        "точки\n4)Вывести это сообщение еще раз\n5)Перейти к работе над другим объектом");
+                    Interface_Figura(mas, (byte)Try_Parse(1));
+                    break;
+                case 1:
+                    Console.WriteLine("Программа может\n1)Вывести параметры треугольника\n2)Вывести третью" +
+                        " сторону треугольника\n3)Проверить, является ли треугольник равнобедренным\n4)" +
+                        "Посчитать площадь треугольника\n5)Вывести это сообщение еще раз\n6)Перейти к работе над другим объектом");
+                    break;
+                case 2:
+                    Console.WriteLine("Программа может\n1)Вывести параметры прямоугольника\n2)Проверить," +
+                        "является ли прямоугольник квадратом\n3)Вывести площадь прямоугольника" +
+                        "\n4)Вывести это сообщение еще раз\n5)Перейти к работе над другим объектом");
+                    break;
+            }
+        }
+        static void Interface_Figura (Figura[]mas, byte option)
+        {
+
         }
         static void New_Figura(Figura obj1)
         {
@@ -111,11 +154,26 @@ namespace ConsoleApp1
                 obj1 = Rectangle_input();
             }
         }
-        static void Main(string[] args)
+        static Figura New_Figura(byte option)
+        {
+            if (option == 0) return Triangle_input();
+            else return Rectangle_input();
+        }
+        static Figura Create_Figura(byte option)
         {
             Figura obj1 = Figura_input();
-            New_Figura(obj1);
-            Console.WriteLine("{0}", obj1.X);
+            if (option >0) New_Figura(obj1);
+            return obj1;
+        }
+        static void Main(string[] args)
+        {
+            Figura[] mas = new Figura[3];
+            mas[0] = Create_Figura(0);
+            mas[1] = Figura_input();
+            mas[1] = New_Figura(0);
+            //да, я извращенец
+            mas[2] = Create_Figura(0);
+            mas[2] = New_Figura(1);
             Console.ReadKey();
         }
     }
@@ -132,17 +190,6 @@ namespace ConsoleApp1
         {
             this.x = x;
             this.y = y;
-        }
-        public class Triangle : Figura
-        {
-            public int GetX()
-            {
-                return x;
-            }
-            public int GetY()
-            {
-                return y;
-            }
         }
         public int X
         {
@@ -172,6 +219,8 @@ namespace ConsoleApp1
             Console.WriteLine("y фигуры: {0}", y);
         }
     }
+    //amogus sus sussus understood... a m o g u s    i s   sus
+    //qwe;
     class Triangle : Figura
     {
         private int a;
@@ -228,7 +277,7 @@ namespace ConsoleApp1
         {
             get
             {
-                return (a == b ^ (double)a == C ^ (double)b == C);
+                return (a == b ^ Math.Abs(a-C)<0.01 ^ Math.Abs(b-C)<0.01);
             }
         }
         public double Area()
