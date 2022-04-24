@@ -285,7 +285,6 @@ namespace ConsoleApp1
         protected int b;
         protected double beta;
         public Triangle()
-            : base()
         {
             a = 5;
             b = 7;
@@ -293,23 +292,23 @@ namespace ConsoleApp1
             x = 0;
             y = 0;
         }
-        public Triangle(int x, int y)
+        public Triangle()
             : base()
         {
             a = 5;
             b = 7;
             beta = 50;
-            this.x = x;
-            this.y = y;
+            this.x = base.X;
+            this.y = base.Y;
         }
-        public Triangle(int a, int b, double beta, int x, int y)
+        public Triangle(int a, int b, double beta)
             : base()
         {
             this.a = a;
             this.b = b;
             this.beta = beta;
-            this.x = x;
-            this.y = y;
+            this.x = base.X;
+            this.y = base.Y;
         }
 
         public int A
@@ -368,28 +367,27 @@ namespace ConsoleApp1
         private int width;
         private int height;
         public Rectangle()
-            : base()
         {
             width = 4;
             height = 8;
             x = 0;
             y = 0;
         }
-        public Rectangle(int x, int y)
+        public Rectangle()
             : base()
         {
             width = 4;
             height = 8;
-            this.x = x;
-            this.y = y;
+            this.x = base.X;
+            this.y = base.Y;
         }
-        public Rectangle(int width, int height, int x, int y)
+        public Rectangle(int width, int height)
             : base()
         {
             this.width = width;
             this.height = height;
-            this.x = x;
-            this.y = y;
+            this.x = base.X;
+            this.y = base.Y;
         }
         public int Width
         {
